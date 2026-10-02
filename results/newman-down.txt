@@ -1,0 +1,342 @@
+newman
+
+Lab05 API Tests
+
+→ Get data
+  GET postman-echo.com/get [200 OK, 1.26kB, 416ms]
+  ✓  Status code is 200
+
+→ Post data
+  POST postman-echo.com/post [200 OK, 1.43kB, 252ms]
+  ✓  Successful POST request
+
+→ 01 - Setup Active Student
+  PUT http://localhost:3000/students/B232270022 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 01 - Setup Course CS313
+  PUT http://localhost:3000/courses/CS313 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 01 - Successful Registration
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+  4. Status is 201
+  5. Result is OK
+
+→ 02 - Setup Inactive Student
+  PUT http://localhost:3000/students/B232270023 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 02 - Setup Course CS314
+  PUT http://localhost:3000/courses/CS314 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 02 - Inactive Student Registration
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+  9. Status is 200
+ 10. Result is ERROR_INACTIVE_STUDENT
+
+→ 03 - Setup Course CS315
+  PUT http://localhost:3000/courses/CS315 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 03 - Student Not Found Registration
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+ 13. Status is 200
+ 14. Result is ERROR_NO_STUDENT
+
+→ 04 - Setup Active Student
+  PUT http://localhost:3000/students/B232270024 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 04 - Course Not Found Registration
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+ 17. Status is 200
+ 18. Result is ERROR_NO_COURSE
+
+→ 05 - Setup Student No Prerequisite
+  PUT http://localhost:3000/students/B232270025 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 05 - Setup Course CS316
+  PUT http://localhost:3000/courses/CS316 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 05 - Missing Prerequisite Registration
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+ 22. Status is 200
+ 23. Result is ERROR_PREREQUISITES
+
+→ 06 - Setup Course CS317
+  PUT http://localhost:3000/courses/CS317 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 06 - Partial Prerequisite Registration
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+ 26. Status is 200
+ 27. Result is ERROR_PREREQUISITES
+
+→ 07 - Missing StudentID
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+ 29. Status is 400
+ 30. Result is ERROR_BAD_REQUEST
+
+→ 08 - Missing CourseID
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+ 32. Status is 400
+ 33. Result is ERROR_BAD_REQUEST
+
+→ 09 - Setup No Prerequisite Student
+  PUT http://localhost:3000/students/B232270027 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 09 - Setup Course No Prerequisites
+  PUT http://localhost:3000/courses/CS318 [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+
+→ 09 - No Prerequisite Registration
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+ 37. Status is 201
+ 38. Result is OK
+
+→ 10 - Double Error Registration
+  POST http://localhost:3000/registrations [errored]
+     connect ECONNREFUSED 127.0.0.1:3000
+ 40. Status is 200
+ 41. Result is ERROR_NO_STUDENT
+
+┌─────────────────────────┬────────────────────┬────────────────────┐
+│                         │           executed │             failed │
+├─────────────────────────┼────────────────────┼────────────────────┤
+│              iterations │                  1 │                  0 │
+├─────────────────────────┼────────────────────┼────────────────────┤
+│                requests │                 23 │                 21 │
+├─────────────────────────┼────────────────────┼────────────────────┤
+│            test-scripts │                 12 │                  0 │
+├─────────────────────────┼────────────────────┼────────────────────┤
+│      prerequest-scripts │                  0 │                  0 │
+├─────────────────────────┼────────────────────┼────────────────────┤
+│              assertions │                 22 │                 20 │
+├─────────────────────────┴────────────────────┴────────────────────┤
+│ total run duration: 962ms                                         │
+├───────────────────────────────────────────────────────────────────┤
+│ total data received: 1.02kB (approx)                              │
+├───────────────────────────────────────────────────────────────────┤
+│ average response time: 334ms [min: 252ms, max: 416ms, s.d.: 82ms] │
+└───────────────────────────────────────────────────────────────────┘
+
+[31m   # [39m[31m failure        [39m[31m detail                                                   [39m
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 01.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 02.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 03.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 04.  AssertionError  Status is 201                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "01 - Successful Registration"                    
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 05.  JSONError       Result is OK                                             
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "01 - Successful Registration"                    
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 06.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 07.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 08.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 09.  AssertionError  Status is 200                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "02 - Inactive Student Registration"              
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 10.  JSONError       Result is ERROR_INACTIVE_STUDENT                         
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "02 - Inactive Student Registration"              
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 11.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 12.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 13.  AssertionError  Status is 200                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "03 - Student Not Found Registration"             
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 14.  JSONError       Result is ERROR_NO_STUDENT                               
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "03 - Student Not Found Registration"             
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 15.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 16.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 17.  AssertionError  Status is 200                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "04 - Course Not Found Registration"              
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 18.  JSONError       Result is ERROR_NO_COURSE                                
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "04 - Course Not Found Registration"              
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 19.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 20.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 21.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 22.  AssertionError  Status is 200                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "05 - Missing Prerequisite Registration"          
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 23.  JSONError       Result is ERROR_PREREQUISITES                            
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "05 - Missing Prerequisite Registration"          
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 24.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 25.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 26.  AssertionError  Status is 200                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "06 - Partial Prerequisite Registration"          
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 27.  JSONError       Result is ERROR_PREREQUISITES                            
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "06 - Partial Prerequisite Registration"          
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 28.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 29.  AssertionError  Status is 400                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "07 - Missing StudentID"                          
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 30.  JSONError       Result is ERROR_BAD_REQUEST                              
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "07 - Missing StudentID"                          
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 31.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 32.  AssertionError  Status is 400                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "08 - Missing CourseID"                           
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 33.  JSONError       Result is ERROR_BAD_REQUEST                              
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "08 - Missing CourseID"                           
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 34.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 35.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 36.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 37.  AssertionError  Status is 201                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "09 - No Prerequisite Registration"               
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 38.  JSONError       Result is OK                                             
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "09 - No Prerequisite Registration"               
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 39.  Error                                                                    
+                      connect ECONNREFUSED 127.0.0.1:3000                      
+                      at request                                               
+                      inside ""                                                
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 40.  AssertionError  Status is 200                                            
+                      expected PostmanResponse{ …(5) } to have property 'code' 
+                      at assertion:0 in test-script                            
+                      inside "10 - Double Error Registration"                  
+[90m     [39m[90m                [39m[90m                                                          [39m
+ 41.  JSONError       Result is ERROR_NO_STUDENT                               
+                      "undefined" is not valid JSON                            
+                      at assertion:1 in test-script                            
+                      inside "10 - Double Error Registration"                  
