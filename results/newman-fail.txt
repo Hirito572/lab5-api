@@ -1,0 +1,121 @@
+newman
+
+Lab05 API Tests FAIL
+
+→ Get data
+  GET postman-echo.com/get [200 OK, 1.26kB, 494ms]
+  ✓  Status code is 200
+
+→ Post data
+  POST postman-echo.com/post [200 OK, 1.43kB, 248ms]
+  ✓  Successful POST request
+
+→ 01 - Setup Active Student
+  PUT http://localhost:3000/students/B232270022 [200 OK, 178B, 6ms]
+
+→ 01 - Setup Course CS313
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 2ms]
+
+→ 01 - Successful Registration
+  POST http://localhost:3000/registrations [201 Created, 202B, 2ms]
+  1. Status is 200
+  ✓  Result is OK
+
+→ 02 - Setup Inactive Student
+  PUT http://localhost:3000/students/B232270023 [200 OK, 178B, 1ms]
+
+→ 02 - Setup Course CS314
+  PUT http://localhost:3000/courses/CS314 [200 OK, 178B, 2ms]
+
+→ 02 - Inactive Student Registration
+  POST http://localhost:3000/registrations [200 OK, 198B, 1ms]
+  ✓  Status is 200
+  ✓  Result is ERROR_INACTIVE_STUDENT
+
+→ 03 - Setup Course CS315
+  PUT http://localhost:3000/courses/CS315 [200 OK, 178B, 1ms]
+
+→ 03 - Student Not Found Registration
+  POST http://localhost:3000/registrations [200 OK, 192B, 1ms]
+  ✓  Status is 200
+  ✓  Result is ERROR_NO_STUDENT
+
+→ 04 - Setup Active Student
+  PUT http://localhost:3000/students/B232270024 [200 OK, 178B, 1ms]
+
+→ 04 - Course Not Found Registration
+  POST http://localhost:3000/registrations [200 OK, 191B, 1ms]
+  ✓  Status is 200
+  ✓  Result is ERROR_NO_COURSE
+
+→ 05 - Setup Student No Prerequisite
+  PUT http://localhost:3000/students/B232270025 [200 OK, 178B, 1ms]
+
+→ 05 - Setup Course CS316
+  PUT http://localhost:3000/courses/CS316 [200 OK, 178B, 1ms]
+
+→ 05 - Missing Prerequisite Registration
+  POST http://localhost:3000/registrations [200 OK, 215B, 1ms]
+  ✓  Status is 200
+  ✓  Result is ERROR_PREREQUISITES
+
+→ 06 - Setup Course CS317
+  PUT http://localhost:3000/courses/CS317 [200 OK, 178B, 13ms]
+
+→ 06 - Partial Prerequisite Registration
+  POST http://localhost:3000/registrations [200 OK, 215B, 1ms]
+  ✓  Status is 200
+  ✓  Result is ERROR_PREREQUISITES
+
+→ 07 - Missing StudentID
+  POST http://localhost:3000/registrations [400 Bad Request, 202B, 1ms]
+  ✓  Status is 400
+  ✓  Result is ERROR_BAD_REQUEST
+
+→ 08 - Missing CourseID
+  POST http://localhost:3000/registrations [400 Bad Request, 202B, 0µs]
+  ✓  Status is 400
+  ✓  Result is ERROR_BAD_REQUEST
+
+→ 09 - Setup No Prerequisite Student
+  PUT http://localhost:3000/students/B232270027 [200 OK, 178B, 0µs]
+
+→ 09 - Setup Course No Prerequisites
+  PUT http://localhost:3000/courses/CS318 [200 OK, 178B, 1ms]
+
+→ 09 - No Prerequisite Registration
+  POST http://localhost:3000/registrations [201 Created, 203B, 1ms]
+  ✓  Status is 201
+  ✓  Result is OK
+
+→ 10 - Double Error Registration
+  POST http://localhost:3000/registrations [200 OK, 192B, 0µs]
+  ✓  Status is 200
+  ✓  Result is ERROR_NO_STUDENT
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                23 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                12 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 0 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                22 │                 1 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 1024ms                                      │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 1.55kB (approx)                            │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 39ms [min: 1ms, max: 494ms, s.d.: 117ms] │
+└─────────────────────────────────────────────────────────────────┘
+
+[31m  # [39m[31m failure        [39m[31m detail                                                [39m
+[90m    [39m[90m                [39m[90m                                                       [39m
+ 1.  AssertionError  Status is 200                                         
+                     expected response to have status code 200 but got 201 
+                     at assertion:0 in test-script                         
+                     inside "01 - Successful Registration"                 
