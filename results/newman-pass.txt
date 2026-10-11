@@ -2,19 +2,11 @@ newman
 
 Lab05 API Tests
 
-→ Get data
-  GET postman-echo.com/get [200 OK, 1.26kB, 514ms]
-  ✓  Status code is 200
-
-→ Post data
-  POST postman-echo.com/post [200 OK, 1.43kB, 257ms]
-  ✓  Successful POST request
-
 → 01 - Setup Active Student
-  PUT http://localhost:3000/students/B232270022 [200 OK, 178B, 8ms]
+  PUT http://localhost:3000/students/B232270022 [200 OK, 178B, 37ms]
 
 → 01 - Setup Course CS313
-  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 2ms]
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 1ms]
 
 → 01 - Successful Registration
   POST http://localhost:3000/registrations [201 Created, 202B, 1ms]
@@ -25,7 +17,7 @@ Lab05 API Tests
   PUT http://localhost:3000/students/B232270023 [200 OK, 178B, 1ms]
 
 → 02 - Setup Course CS314
-  PUT http://localhost:3000/courses/CS314 [200 OK, 178B, 2ms]
+  PUT http://localhost:3000/courses/CS314 [200 OK, 178B, 1ms]
 
 → 02 - Inactive Student Registration
   POST http://localhost:3000/registrations [200 OK, 198B, 1ms]
@@ -33,7 +25,7 @@ Lab05 API Tests
   ✓  Result is ERROR_INACTIVE_STUDENT
 
 → 03 - Setup Course CS315
-  PUT http://localhost:3000/courses/CS315 [200 OK, 178B, 2ms]
+  PUT http://localhost:3000/courses/CS315 [200 OK, 178B, 1ms]
 
 → 03 - Student Not Found Registration
   POST http://localhost:3000/registrations [200 OK, 192B, 1ms]
@@ -55,12 +47,15 @@ Lab05 API Tests
   PUT http://localhost:3000/courses/CS316 [200 OK, 178B, 1ms]
 
 → 05 - Missing Prerequisite Registration
-  POST http://localhost:3000/registrations [200 OK, 215B, 1ms]
+  POST http://localhost:3000/registrations [200 OK, 215B, 0µs]
   ✓  Status is 200
   ✓  Result is ERROR_PREREQUISITES
 
 → 06 - Setup Course CS317
-  PUT http://localhost:3000/courses/CS317 [200 OK, 178B, 0µs]
+  PUT http://localhost:3000/courses/CS317 [200 OK, 178B, 1ms]
+
+→ 06 - Setup Partial Prerequisite Student
+  PUT http://localhost:3000/students/B232270026 [200 OK, 178B, 1ms]
 
 → 06 - Partial Prerequisite Registration
   POST http://localhost:3000/registrations [200 OK, 215B, 1ms]
@@ -78,7 +73,7 @@ Lab05 API Tests
   ✓  Result is ERROR_BAD_REQUEST
 
 → 09 - Setup No Prerequisite Student
-  PUT http://localhost:3000/students/B232270027 [200 OK, 178B, 0µs]
+  PUT http://localhost:3000/students/B232270027 [200 OK, 178B, 1ms]
 
 → 09 - Setup Course No Prerequisites
   PUT http://localhost:3000/courses/CS318 [200 OK, 178B, 1ms]
@@ -93,22 +88,22 @@ Lab05 API Tests
   ✓  Status is 200
   ✓  Result is ERROR_NO_STUDENT
 
-┌─────────────────────────┬───────────────────┬───────────────────┐
-│                         │          executed │            failed │
-├─────────────────────────┼───────────────────┼───────────────────┤
-│              iterations │                 1 │                 0 │
-├─────────────────────────┼───────────────────┼───────────────────┤
-│                requests │                23 │                 0 │
-├─────────────────────────┼───────────────────┼───────────────────┤
-│            test-scripts │                12 │                 0 │
-├─────────────────────────┼───────────────────┼───────────────────┤
-│      prerequest-scripts │                 0 │                 0 │
-├─────────────────────────┼───────────────────┼───────────────────┤
-│              assertions │                22 │                 0 │
-├─────────────────────────┴───────────────────┴───────────────────┤
-│ total run duration: 1031ms                                      │
-├─────────────────────────────────────────────────────────────────┤
-│ total data received: 1.54kB (approx)                            │
-├─────────────────────────────────────────────────────────────────┤
-│ average response time: 39ms [min: 1ms, max: 514ms, s.d.: 120ms] │
-└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              22 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              10 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               0 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              20 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 257ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 533B (approx)                          │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 2ms [min: 1ms, max: 37ms, s.d.: 7ms] │
+└─────────────────────────────────────────────────────────────┘

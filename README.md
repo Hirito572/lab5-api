@@ -2,394 +2,171 @@
 
 ## 1. Оюутны мэдээлэл
 
-- **Оюутны нэр:** [Таны нэр]
+- **Оюутны нэр:** Э. Мөнх-Очир
 - **Оюутны код:** B232270022
-- **Хичээл:** F.CSA313 — Программ хангамжийн тест
-- **Лаборатори:** №5
+- **Хичээл:** F.CSA313
+- **Лабораторийн ажил:** №5
 - **Сэдэв:** API систем тест — Postman ба Newman
-
----
 
 ## 2. Лабораторийн зорилго
 
-Энэхүү лабораторийн ажлын зорилго нь REST API системийн функциональ шаардлагуудыг
-Postman ашиглан тестлэх, тестийн oracle буюу хүлээгдэж буй үр дүнг тодорхойлох,
-мөн Newman ашиглан Postman collection-ийг command line орчноос автомат ажиллуулахад оршино.
+Энэхүү лабораторийн ажлын зорилго нь REST API-ийн функциональ ажиллагааг Postman ашиглан тестлэх, хүлээгдэж буй үр дүнг oracle-аар шалгах, мөн Newman ашиглан collection-ийг командын мөрөөс автомат ажиллуулахад оршино.
 
-Туршилтаар `/registrations` endpoint-ийн амжилттай бүртгэл,
-оюутан байхгүй байх, оюутан идэвхгүй байх, хичээл байхгүй байх,
-prerequisite дутуу байх, буруу request болон олон алдаатай request зэрэг
-тохиолдлуудыг шалгасан.
-
----
+Туршилтаар амжилттай бүртгэл, идэвхгүй болон байхгүй оюутан, байхгүй хичээл, prerequisite дутуу байх, шаардлагатай талбар дутуу байх болон олон алдаа зэрэг тохиолдох нөхцөлийг шалгасан.
 
 ## 3. Ашигласан технологи
 
-| Технологи | Хувилбар |
+| Технологи | Хувилбар / утга |
 |---|---|
-| Node.js | v26.0.0 |
-| npm | 11.12.1 |
-| Newman | 6.2.2 |
-| Postman | Postman |
-| API | Node.js REST API |
-| API URL | http://localhost:3000 |
+| Node.js (`node -v`) | `v26.0.0` |
+| Newman (`newman -v`) | `6.2.2` |
+| npm | `11.12.1` |
+| API хаяг | `http://localhost:3000` |
 
----
+Хувилбаруудыг дараах командаар шалгасан:
 
-## 4. API систем
+```bash
+node -v
+newman -v
+```
 
-Лабораторид локал REST API ашигласан.
+## 4. API-ийн мэдээлэл
 
-API server-ийг дараах командаар ажиллуулна:
+API серверийг дараах командаар ажиллуулна:
 
 ```bash
 node server.js
 ```
 
-API:
-
-```text
-http://localhost:3000
-```
-
-Үндсэн тестлэсэн endpoint:
+Үндсэн endpoint:
 
 ```text
 POST /registrations
 ```
 
-Мөн тест бүрийн өмнө шаардлагатай student болон course мэдээллийг:
+Тестийн өмнө оюутан болон хичээлийн өгөгдлийг тохируулахад дараах endpoint-үүдийг ашигласан:
 
 ```text
 PUT /students/:studentID
 PUT /courses/:courseID
 ```
 
-endpoint-үүдээр тохируулсан.
+## 5. Choice / Value analysis
 
----
-
-## 5. API-ийн үндсэн үр дүн
-
-### Амжилттай бүртгэл
-
-```text
-HTTP 201
-{
-  "result": "OK",
-  "registrationID": ...
-}
-```
-
-### Оюутан олдохгүй
-
-```text
-HTTP 200
-{
-  "result": "ERROR_NO_STUDENT"
-}
-```
-
-### Оюутан идэвхгүй
-
-```text
-HTTP 200
-{
-  "result": "ERROR_INACTIVE_STUDENT"
-}
-```
-
-### Хичээл олдохгүй
-
-```text
-HTTP 200
-{
-  "result": "ERROR_NO_COURSE"
-}
-```
-
-### Prerequisite дутуу
-
-```text
-HTTP 200
-{
-  "result": "ERROR_PREREQUISITES",
-  "missing": [...]
-}
-```
-
-### Request-ийн шаардлагатай field дутуу
-
-```text
-HTTP 400
-{
-  "result": "ERROR_BAD_REQUEST"
-}
-```
-
----
-
-## 6. Choice / Value analysis
-
-| Choice | Values |
+| Хувьсагч | Боломжит утгууд |
 |---|---|
 | Student status | active, inactive, байхгүй |
-| Student coursesTaken | CS201-тэй, CS201-гүй, хэсэгчлэн prerequisite хангасан |
+| Student coursesTaken | CS201 үзсэн, үзээгүй, хэсэгчлэн үзсэн |
 | Course existence | байгаа, байхгүй |
 | Course prerequisites | prerequisite байхгүй, нэг prerequisite, олон prerequisite |
-| Request fields | studentID + courseID, studentID дутуу, courseID дутуу |
-| Registration result | OK, ERROR_NO_STUDENT, ERROR_INACTIVE_STUDENT, ERROR_NO_COURSE, ERROR_PREREQUISITES, ERROR_BAD_REQUEST |
+| Request fields | хоёр талбар бүрэн, studentID дутуу, courseID дутуу |
+| Алдааны нөхцөл | нэг алдаа, хоёр алдаа зэрэг |
 | HTTP status | 200, 201, 400 |
-| Multiple errors | studentID болон courseID хоёулаа буруу |
 
----
+## 6. Test specification
 
-## 7. Test specification
+Нийт 10 үндсэн registration test боловсруулсан.
 
-Нийт 10 үндсэн registration test specification боловсруулсан.
-
-| № | Test specification | Input / Condition | Expected Status | Expected Result |
+| № | Тест | Нөхцөл | Хүлээгдэж буй status | Хүлээгдэж буй result |
 |---|---|---|---:|---|
-| 01 | Successful Registration | Active student + existing course + prerequisite satisfied | 201 | `OK` |
-| 02 | Inactive Student | Student status = inactive | 200 | `ERROR_INACTIVE_STUDENT` |
-| 03 | Student Not Found | Student байхгүй | 200 | `ERROR_NO_STUDENT` |
-| 04 | Course Not Found | Course байхгүй | 200 | `ERROR_NO_COURSE` |
-| 05 | Missing Prerequisite | Student prerequisite аваагүй | 200 | `ERROR_PREREQUISITES` |
-| 06 | Partial Prerequisite | Олон prerequisite-ээс нэг нь дутуу | 200 | `ERROR_PREREQUISITES` |
-| 07 | Missing StudentID | `studentID` field байхгүй | 400 | `ERROR_BAD_REQUEST` |
-| 08 | Missing CourseID | `courseID` field байхгүй | 400 | `ERROR_BAD_REQUEST` |
-| 09 | No Prerequisite Course | Course prerequisite байхгүй | 201 | `OK` |
-| 10 | Double Error | Student болон course хоёулаа байхгүй | 200 | `ERROR_NO_STUDENT` |
+| 01 | Successful Registration | Идэвхтэй оюутан, хичээл байгаа, prerequisite хангасан | 201 | `OK` |
+| 02 | Inactive Student | Оюутан идэвхгүй | 200 | `ERROR_INACTIVE_STUDENT` |
+| 03 | Student Not Found | Оюутан байхгүй | 200 | `ERROR_NO_STUDENT` |
+| 04 | Course Not Found | Хичээл байхгүй | 200 | `ERROR_NO_COURSE` |
+| 05 | Missing Prerequisite | Шаардлагатай prerequisite дутуу | 200 | `ERROR_PREREQUISITES` |
+| 06 | Partial Prerequisite | CS201 үзсэн боловч CS202 дутуу | 200 | `ERROR_PREREQUISITES` |
+| 07 | Missing StudentID | studentID талбар байхгүй | 400 | `ERROR_BAD_REQUEST` |
+| 08 | Missing CourseID | courseID талбар байхгүй | 400 | `ERROR_BAD_REQUEST` |
+| 09 | No Prerequisite Course | Хичээл prerequisite шаардахгүй | 201 | `OK` |
+| 10 | Double Error | Оюутан болон хичээл хоёулаа байхгүй | 200 | `ERROR_NO_STUDENT` |
 
----
+Тест 06-д `B232270026` оюутныг `PUT /students/B232270026` хүсэлтээр тухайн тестийн өмнө тохируулсан. Оюутан зөвхөн CS201 үзсэн бөгөөд CS317 хичээл CS201 болон CS202 гэсэн хоёр prerequisite шаарддаг. Иймээс CS202 дутуу гэсэн хариу гарах ёстой.
 
-## 8. Postman collection
+## 7. Newman-ийн үр дүн
 
-Үндсэн collection:
+### 7.1 PASS test
 
-```text
-lab05-collection.json
-```
-
-FAIL collection:
-
-```text
-lab05-collection-fail.json
-```
-
-Collection-д дараах төрлийн request-үүд орсон:
-
-- Student setup
-- Course setup
-- Successful registration
-- Inactive student
-- Student not found
-- Course not found
-- Missing prerequisite
-- Partial prerequisite
-- Missing StudentID
-- Missing CourseID
-- No prerequisite
-- Double error
-
-Test бүрт response-ийн:
-
-1. HTTP status
-2. `result` field
-
-гэсэн хоёр oracle ашигласан.
-
-Ингэснээр үндсэн registration test-үүдээс нийт 20 assertion ажилласан бөгөөд
-Postman-ийн default `Get data` болон `Post data` request-үүд тус бүр нэг assertion
-ажиллуулсан тул Newman-ийн нийт assertion count **22** болсон.
-
----
-
-## 9. Test oracle
-
-Жишээ нь successful registration-ийн test:
-
-```javascript
-pm.test("Status is 201", function () {
-    pm.response.to.have.status(201);
-});
-
-pm.test("Result is OK", function () {
-    const json = pm.response.json();
-    pm.expect(json.result).to.eql("OK");
-});
-```
-
-Ингэснээр зөвхөн HTTP status биш, response-ийн бизнесийн үр дүнг мөн шалгасан.
-
----
-
-# 10. Newman PASS test
-
-PASS collection:
-
-```text
-lab05-collection.json
-```
-
-Ажиллуулсан command:
+Ажиллуулсан команд:
 
 ```bash
 newman run lab05-collection.json 2>&1 | tee results/newman-pass.txt
 ```
 
-### Үр дүн
+Үр дүн:
 
-```text
-iterations                1
-requests                 23
-test-scripts             12
-prerequest-scripts        0
-assertions               22
-failed                    0
-```
+| Үзүүлэлт | Утга |
+|---|---:|
+| Iterations | 1 |
+| Requests | 22 |
+| Test scripts | 10 |
+| Assertions | 20 |
+| Failed assertions | 0 |
+| Exit code | 0 |
 
-### Exit code
+PASS test-ийн бүх assertion амжилттай ажилласан.
 
-```text
-exit=0
-```
+### 7.2 FAIL test
 
-### PASS дүгнэлт
+FAIL collection дээр `01 - Successful Registration` тестийн status oracle-ийг зориудаар 201-ийн оронд 200 гэж өөрчилсөн.
 
-- 23 request ажилласан.
-- 22 assertion ажилласан.
-- 0 assertion failed.
-- Newman exit code 0 гарсан.
-- Иймээс үндсэн collection-ийн бүх тест амжилттай ажилласан.
-
----
-
-# 11. Newman FAIL test
-
-FAIL collection:
-
-```text
-lab05-collection-fail.json
-```
-
-FAIL test-ийн зорилгоор `01 - Successful Registration` тестийн status oracle-ийг
-зориудаар буруу болгосон.
-
-Зөв утга:
-
-```text
-201
-```
-
-FAIL collection дээр зориудаар:
-
-```text
-200
-```
-
-гэж тохируулсан.
-
-Ажиллуулсан command:
+Ажиллуулсан команд:
 
 ```bash
 newman run lab05-collection-fail.json 2>&1 | tee results/newman-fail.txt
 ```
 
-### Үр дүн
+Үр дүн:
+
+| Үзүүлэлт | Утга |
+|---|---:|
+| Requests | 22 |
+| Assertions | 20 |
+| Failed assertions | 1 |
+| Exit code | 1 |
+
+Алдааны мэдээлэл:
 
 ```text
-iterations                1
-requests                 23
-test-scripts             12
-prerequest-scripts        0
-assertions               22
-failed                    1
-```
-
-Failed assertion:
-
-```text
-AssertionError: Status is 200
 expected response to have status code 200 but got 201
 ```
 
-### Exit code
+Энэ нь API амжилттай хариу өгсөн боловч зориудаар буруу oracle ашигласнаас assertion failed болсныг харуулсан.
 
-```text
-exit=1
-```
+### 7.3 DOWN test
 
-### FAIL дүгнэлт
+DOWN test хийхийн өмнө API серверийг `Ctrl+C` ашиглан зогсоосон.
 
-FAIL collection дээр зориудаар буруу oracle ашигласнаар нэг assertion failed болсон.
-Newman энэ failure-ийг зөв илрүүлж, exit code 1 буцаасан.
-
----
-
-# 12. Newman DOWN test
-
-DOWN test хийхийн өмнө Node.js API server-ийг зогсоосон.
-
-```text
-Ctrl + C
-```
-
-Дараа нь үндсэн collection-ийг дахин ажиллуулсан:
+Ажиллуулсан команд:
 
 ```bash
 newman run lab05-collection.json 2>&1 | tee results/newman-down.txt
 ```
 
-### Үр дүн
+Үр дүн:
 
-API server ажиллахгүй байсан тул:
+| Үзүүлэлт | Утга |
+|---|---:|
+| Requests | 22 |
+| Failed requests | 22 |
+| Assertions | 20 |
+| Failed assertions | 20 |
+| Exit code | 1 |
+
+Алдааны мэдээлэл:
 
 ```text
 connect ECONNREFUSED 127.0.0.1:3000
 ```
 
-гэсэн connection error гарсан.
+Сервер унтарсан тул Newman API-тай холбогдож чадаагүй.
 
-Summary:
+### 7.4 FAIL ба DOWN-ийн ялгаа
 
-```text
-iterations                1
-requests                 23
-failed requests          21
-test-scripts             12
-assertions               22
-failed assertions        20
-```
+**FAIL test** нь API хариу өгсөн боловч хүлээгдэж буй үр дүнг зориудаар буруу oracle-той харьцуулж алдаа илрүүлдэг; харин **DOWN test** нь сервер унтарснаас хүсэлт API-д хүрч чадахгүй, `ECONNREFUSED` холболтын алдаа үүсгэдэг.
 
-### Exit code
+## 8. Үр дүнгийн файлууд
 
-```text
-exit=1
-```
-
-### DOWN дүгнэлт
-
-API server унтарсан үед Newman localhost:3000 руу холбогдож чадаагүй.
-Үүний үр дүнд `ECONNREFUSED` алдаа гарсан бөгөөд Newman exit code 1 буцаасан.
-
----
-
-# 13. Test result summary
-
-| Test run | Collection | Requests | Assertions | Failed | Exit code |
-|---|---|---:|---:|---:|---:|
-| PASS | `lab05-collection.json` | 23 | 22 | 0 | 0 |
-| FAIL | `lab05-collection-fail.json` | 23 | 22 | 1 | 1 |
-| DOWN | `lab05-collection.json` | 23 | 22 | 20 assertions* | 1 |
-
-> DOWN test-ийн failed count нь server connection error-уудаас үүссэн. Үндсэн шинж тэмдэг нь `ECONNREFUSED 127.0.0.1:3000` байсан.
-
----
-
-# 14. Results files
-
-Туршилтын үр дүнг `results` folder-т хадгалсан.
+Туршилтын output-уудыг `results/` хавтсанд хадгалсан.
 
 ```text
 results/
@@ -398,127 +175,21 @@ results/
 └── newman-down.txt
 ```
 
-### PASS
-
-```text
-results/newman-pass.txt
-```
-
-### FAIL
-
-```text
-results/newman-fail.txt
-```
-
-### DOWN
-
-```text
-results/newman-down.txt
-```
-
----
-
-# 15. Repository structure
+## 9. Repository бүтэц
 
 ```text
 lab5-api/
-├── results/
-│   ├── newman-pass.txt
-│   ├── newman-fail.txt
-│   └── newman-down.txt
-│
+├── .gitignore
+├── README.md
+├── server.js
 ├── lab05-collection.json
 ├── lab05-collection-fail.json
-├── server.js
-└── README.md
+└── results/
+    ├── newman-pass.txt
+    ├── newman-fail.txt
+    └── newman-down.txt
 ```
 
----
+## 10. Дүгнэлт
 
-# 16. Ажиллуулах заавар
-
-## 16.1 Repository clone хийх
-
-```bash
-git clone https://github.com/Hirito572/lab5-api.git
-cd lab5-api
-```
-
-## 16.2 API server ажиллуулах
-
-```bash
-node server.js
-```
-
-API:
-
-```text
-http://localhost:3000
-```
-
-## 16.3 Newman version шалгах
-
-```bash
-newman -v
-```
-
-Гаралт:
-
-```text
-6.2.2
-```
-
-## 16.4 PASS test
-
-```bash
-newman run lab05-collection.json
-```
-
-## 16.5 FAIL test
-
-```bash
-newman run lab05-collection-fail.json
-```
-
-## 16.6 DOWN test
-
-API server-ийг зогсоосны дараа:
-
-```bash
-newman run lab05-collection.json
-```
-
----
-
-# 17. Git commits
-
-Лабораторийн ажлыг нэг дор commit хийхгүйгээр үе шаттайгаар repository-д хадгалсан.
-
-Үндсэн commit-үүд:
-
-```text
-chore: add lab05 API server
-test: add lab05 postman collection
-test: add newman pass results
-test: add newman fail results
-test: add newman down result
-```
-
-Repository:
-
-https://github.com/Hirito572/lab5-api
-
----
-
-# 18. Дүгнэлт
-
-Энэхүү лабораторийн ажлаар REST API системийг Postman ашиглан функциональ байдлаар тестэлсэн.
-`/registrations` endpoint-ийн амжилттай болон алдаатай олон төрлийн нөхцөлүүдийг тодорхойлсон.
-Active student, inactive student, байхгүй student, байхгүй course болон prerequisite нөхцөлүүдийг тус тусад нь шалгасан.
-Мөн `studentID` болон `courseID` field дутуу request-үүдийг 400 status болон `ERROR_BAD_REQUEST` үр дүнгээр шалгасан.
-Олон алдаа зэрэг тохиолдсон үед API-ийн буцааж буй үр дүнг тусгай test specification болгон шалгасан.
-Postman collection-ийг Newman ашиглан command line орчноос ажиллуулж, нийт 22 assertion гүйцэтгэснийг баталгаажуулсан.
-PASS collection нь 0 failed assertion болон exit code 0 гаргасан.
-Буруу oracle бүхий FAIL collection нь assertion failure-ийг зөв илрүүлж, exit code 1 гаргасан.
-API server унтарсан үед Newman `ECONNREFUSED` алдааг илрүүлж, exit code 1 буцаасан.
-Ингэснээр Postman болон Newman ашиглан API-ийн хэвийн ажиллагаа, алдааны нөхцөл болон server unavailable нөхцөлүүдийг системтэйгээр тестлэх дадлага хийсэн.
+Энэ лабораторийн ажлын хамгийн хэцүү хэсэг нь Postman collection-ийн хүсэлтүүдийг зөв дараалалд оруулж, тест бүрийг өмнөх тестийн өгөгдлөөс хамааралгүй ажиллуулах явдал байлаа. Тест 06-д оюутны setup хүсэлт дутуу байсан тул шинэ сервер дээр найдвартай ажиллахгүй байх эрсдэл илэрсэн. Үүнийг засаж, `B232270026` оюутны PUT setup-ийг prerequisite шалгах POST хүсэлтийн өмнө нэмсэн. Тестийн өгөгдлийг setup хүсэлтээр урьдчилан үүсгэснээр өмнөх run-ийн өгөгдлөөс хамаарах эрсдэлийг бууруулсан. CS317 хичээл хоёр prerequisite шаарддаг боловч оюутан зөвхөн CS201 үзсэн нөхцөлд CS202 дутуу гэсэн үр дүнг зөв шалгасан. PASS туршилтаар 22 хүсэлт, 20 assertion ажиллаж, ямар ч assertion failed болоогүй. FAIL туршилтаар зориуд буруу oracle ашиглахад нэг assertion failed болж, Newman exit code 1 буцаасан. DOWN туршилтаар сервер унтарсан үед `ECONNREFUSED` гарч, холболтын алдааг илрүүлсэн. Энэ туршилтууд нь oracle-ийн алдаа болон серверийн холболтын алдаа хоёр өөр шалтгаантай болохыг харуулсан. Ерөнхийдөө Postman болон Newman ашиглан API-ийн хэвийн ажиллагаа, алдааны нөхцөл болон сервер ажиллахгүй үеийн зан төлөвийг системтэйгээр шалгаж сурсан.
